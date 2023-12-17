@@ -15,7 +15,7 @@ export class OpenAiService {
         const body = {
             model: "gpt-4-1106-preview",
             max_tokens: 1300,
-            messages: messages.slice(-15),
+            messages: messages.slice(-30),
         };
 
         try {
