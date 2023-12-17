@@ -9,7 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
   app.enableCors({
-    origin: 'http://localhost:4200', // Your frontend's address
+    origin: ['http://localhost:4200','https://gpt-frontend-76a470c6a0ff.herokuapp.com'], // Your frontend's address
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
     allowedHeaders: 'Content-Type, Accept',
