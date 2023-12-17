@@ -14,7 +14,7 @@ export class AuthController {
         res.cookie('Authentication', token.access_token, {
             httpOnly: true,
             secure: process.env.NODE_ENV !== 'development', // Secure in production
-            sameSite: 'strict',
+            sameSite: 'none',
             // The cookie is not accessible via JavaScript
             // You might want to set other cookie options, such as 'secure: true' for HTTPS
         });
