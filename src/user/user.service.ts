@@ -34,4 +34,14 @@ export class UserService {
         if (!user) return null;
         return user.toObject();
     }
+
+    async updateById(id: string): Promise<Boolean> {
+        const user = await this.userModel.findOneAndUpdate(
+            { _id: id },
+            { $inc: { answers: 1 } }, // Increment 'answers' field by 1
+            { new: true, upsert: true } // Return the updated document and create if not exists
+        ).exec();
+        if (!user) return false;
+        return true;
+    }
 }

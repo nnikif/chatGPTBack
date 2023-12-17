@@ -3,10 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Chat } from './chat.schema';
 import {OpenAiService} from "./openai.service";
+import {UserService} from "../user/user.service";
 
 @Injectable()
 export class ChatService {
-    constructor(@InjectModel('Chat') private chatModel: Model<Chat>, private openAIService: OpenAiService) {}
+    constructor(@InjectModel('Chat') private chatModel: Model<Chat>, private openAIService: OpenAiService, private userService: UserService) {}
 
     async createChat(userId: string, title: string): Promise<Chat> {
         const newChat = new this.chatModel({ user: userId, title, messages: [] });
@@ -19,8 +20,8 @@ export class ChatService {
         const response = await this.openAIService.getChatCompletions([...chat.messages.map(
             ({role, content}) => ({ role, content })
         ), {role, content}]);
-        console.log(response);
         const answer = response?.choices[0]?.message;
+        await this.userService.updateById(userId);
         chat.messages.push({ role, content }, answer || []);
         return chat.save();
     }
